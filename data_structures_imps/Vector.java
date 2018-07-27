@@ -27,7 +27,7 @@ public class Vector {
 		return this.capacity;
 	}
 
-	public boolean is_empty() {
+	public boolean isEmpty() {
 		return (this.size == 0);
 	}
 
@@ -56,32 +56,15 @@ public class Vector {
 		this.size++;
 	}
 
-	public int pop() {
-		if (this.size <= 0) {
-			return -1;
-		}
-		int last_item = this.data[this.size];
-		this.delete(this.size);
-		return last_item;
-	}
-
 	public void prepend(int value) {
 		if (this.size == this.capacity) {
 			this.resize(this.capacity * 2);
 		}
-		for (int i = this.size; i >= 0; i--) {
+		for (int i = this.size; i > 0; i--) {
 			this.data[i] = this.data[i - 1];
 		}
 		this.data[0] = value;
-	}
-
-	private void resize(int new_capacity) {
-		int[] new_data = new int[new_capacity];
-		for (int i = 0; i < this.capacity; i++) {
-			new_data[i] = this.data[i];
-		}
-		this.data = new_data;
-		this.capacity = new_capacity;
+		this.size++;
 	}
 
 	public void insert(int index, int value) {
@@ -96,6 +79,15 @@ public class Vector {
 		this.size++;
 	}
 
+	public int pop() {
+		if (this.size <= 0) {
+			return -1;
+		}
+		int last_item = this.data[this.size-1];
+		this.delete(this.size);
+		return last_item;
+	}
+
 	public void delete(int index) {
 		if (index < 0 || index >= this.capacity) {
 			throw new IndexOutOfBoundsException("Index " + index + " is out of bounds!");
@@ -103,6 +95,7 @@ public class Vector {
 		for (int i = index; i < this.size - 1; i++) {
 			this.data[i] = this.data[i+1];
 		}
+		this.data[this.size-1] = 0;
 		this.size--;
 	}
 
@@ -118,18 +111,29 @@ public class Vector {
 				count++;
 			}
 		}
-		this.size = this.size - count;
-		int[] new_data = new int[this.size];
+		int new_size = this.size - count;
+		int[] new_data = new int[this.capacity];
 		int j = 0;
 		for (int i = 0; i < this.size; i++) {
 			if (this.data[i] != value) {
 				new_data[j] = this.data[i];
+				j++;
 			}
 		}
+		this.size = new_size;
 		this.data = new_data;
 	}
 
 	public String view() {
 		return java.util.Arrays.toString(this.data);
+	}
+
+	private void resize(int new_capacity) {
+		int[] new_data = new int[new_capacity];
+		for (int i = 0; i < this.capacity; i++) {
+			new_data[i] = this.data[i];
+		}
+		this.data = new_data;
+		this.capacity = new_capacity;
 	}
 }
