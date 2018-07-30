@@ -34,7 +34,7 @@ assert unique_chars_sol1("aa") == False
 assert unique_chars_sol2("aa") == False
 
 assert unique_chars_sol1("aba") == False
-assert unique_chars_sol1("aba") == False
+assert unique_chars_sol2("aba") == False
 
 assert unique_chars_sol1("aswldqer") == True
-assert unique_chars_sol1("aswldqer") == True
+assert unique_chars_sol2("aswldqer") == True
